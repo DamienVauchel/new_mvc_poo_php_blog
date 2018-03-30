@@ -24,7 +24,6 @@ class MySQLDatabase
 
     public function connect()
     {
-        var_dump($this->dbHost, $this->dbName, $this->dbUser, $this->dbPw);
         try {
             $this->connection = new \PDO("mysql:host=".$this->dbHost.";dbname=".$this->dbName, $this->dbUser, $this->dbPw);
         } catch (\PDOException $e) {
