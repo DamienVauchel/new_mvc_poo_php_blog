@@ -10,7 +10,7 @@ define('ROOT', $root);
 
 
 $datas = array(
-    'title'             => 'test title to check if all Is WORKING',
+    'title'             => 'prout',
     'content'           => 'IT SEEMS to be so good for the moment :D',
     'author'            => 'Damien'
 );

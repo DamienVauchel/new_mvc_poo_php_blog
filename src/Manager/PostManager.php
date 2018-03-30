@@ -34,12 +34,13 @@ class PostManager extends Manager
 
     public function add($title, $content, $author, $slug)
     {
-        $q = $this->db->prepare('
-            INSERT INTO posts (title, content, author, slug, creation_date)
-            VALUES (?, ?, ?, ?, NOW())
-        ');
-
-        $stmt = $q->execute(array($title, $content, $author, $slug));
+        $q = $this->qb
+            ->insertInto('posts', array('title', 'content', 'author', 'slug', 'creation_date'))
+            ->values(array('?', '?', '?', '?', 'NOW()'))
+            ->getQuery();
+        
+        $stmt = $this->db->prepare($q);
+        $stmt->execute(array($title, $content, $author, $slug));
 
         return $stmt;
     }
