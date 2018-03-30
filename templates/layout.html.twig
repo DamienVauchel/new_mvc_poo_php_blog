@@ -9,19 +9,37 @@
         <!-- ############################################## MATERIALZE CSS CDN ##################################### -->
         <!-- Compiled and minified CSS -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+
+        <!-- ############################################## jQuery CDN ############################################# -->
+        <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+
+        <!-- ############################################## MATERIALZE JS CDN ###################################### -->
         <!-- Compiled and minified JavaScript -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+
+        <!-- ############################################## MATERIALZE Icons CDN ################################### -->
         <!-- Material Icons -->
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
+
+        <link rel="stylesheet" href="public/css/main.css">
         {% block stylesheets %}{% endblock %}
 
         <title>{% block title %}Blog de Damien Vauchel{% endblock %}</title>
     </head>
 
     <body>
-        {% block nav %}{% endblock %}
+        <header>
+            {% block nav %}{% endblock %}
+        </header>
+
         {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+
+        <footer>
+            {% block footer %}{% endblock %}
+
+            <script src="public/js/main.js"></script>
+            {% block javascripts %}{% endblock %}
+        </footer>
     </body>
 </html>

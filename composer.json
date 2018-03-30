@@ -5,6 +5,7 @@
       {
           "Controller\\": "src/Controller",
           "Entity\\": "src/Entity",
+          "Manager\\": "src/Manager",
           "Framework\\": "vendor/framework"
       }
   },

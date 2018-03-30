@@ -1,6 +1,6 @@
 database:
     mysql:
         dbHost: localhost
-        dbName: poo
+        dbName: blog2
         dbUser: root
         dbPw:   root

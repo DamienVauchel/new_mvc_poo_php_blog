@@ -1,9 +1,54 @@
 {% extends 'public/layout.html.twig' %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" href="public/css/home.css">
+{% endblock %}
+
 {% block title %}
     Accueil - {{ parent() }}
 {% endblock %}
 
 {% block body %}
-HELLO WORLD
+    <div id="home-banner">
+        <div class="container">
+            <div class="row center-align">
+                <div class="col l8 offset-l2 white-text">
+                    <a href="http://www.damienvauchel.com" target="_blank"><h1 class="white-text"><b>DAMIEN VAUCHEL</b></h1></a>
+                    <h2>Le développement, j'ai ça dans le sang!</h2>
+                    <br>
+                    <a href="public/docs/online-2017-CV-Damien-Vauchel.pdf" class="btn white hoverable waves-effect black-text" target="_blank">Télécharger le CV</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" id="home-container">
+        <div class="row centered" id="home-row">
+            <h4>DERNIERS ARTICLES DU BLOG</h4>
+            <br>
+            {% for post in posts %}
+                <div class="col s3">
+                    <div class="moveUp">
+                        <a href="http://{{ constant("ROOT") }}/post/{{ post.id }}">
+                            <div class="thumbnail home-post home-post-mobile">
+                                <div>
+                                    <img class="img-responsive center-block" src="assets/post_photo/<?= $post->getPhoto(); ?>" alt="">
+                                </div>
+                                <br>
+                                <div>
+                                    <h2 class="text-center home-post-title"><b>{{ post.title }}</b></h2>
+                                    <div class="text-right">
+                                        <small style="text-decoration: underline;">
+                                            <i class="fa fa-clock-o" aria-hidden="true"></i>{{ post.content }}
+                                        </small>
+                                    </div>
+                                    <p class="text-right">... Lire l'article</p>
+                                </div>
+                            </div><!-- row -->
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div><!-- row -->
+    </div><!-- container -->
 {% endblock %}

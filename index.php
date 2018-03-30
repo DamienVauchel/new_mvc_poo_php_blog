@@ -2,14 +2,17 @@
 require_once 'vendor/autoload.php';
 
 use Framework\Router\Router;
-use Framework\Database\MySQLDatabase;
 
-$db = new MySQLDatabase();
-$db->connect();
+$root = $_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF'];
+$root = explode('/', $root);
+$root = $root[0].'/'.$root[1];
+define('ROOT', $root);
 
 $router = new Router($_GET['url']);
 
 $router->get("/", "Default#index");
+
+$router->get("post/:id", "Post#view");
 
 try {
     $router->run();
