@@ -1,5 +1,14 @@
 <?php
-require 'vendor/autoload.php';
+require_once 'vendor/autoload.php';
 
-$controller = new \Controller\DefaultController();
-$controller->goToHome();
+use Framework\Router\Router;
+
+$router = new Router($_GET['url']);
+
+$router->get("/", "Default#goToHome");
+
+try {
+    $router->run();
+} catch (\Framework\Exception\RouterException $e) {
+    die("Error: ".$e->getMessage());
+}
