@@ -1,11 +1,16 @@
 {
-  "autoload": {
-    "psr-4": {
-      "Controller\\": "src/Controller",
-      "Entity\\": "src/Entity"
-    }
+  "autoload":
+  {
+      "psr-4":
+      {
+          "Controller\\": "src/Controller",
+          "Entity\\": "src/Entity",
+          "Framework\\": "vendor/framework"
+      }
   },
-  "require": {
-    "twig/twig": "^2.4"
+
+  "require":
+  {
+      "twig/twig": "^2.4"
   }
 }
