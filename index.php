@@ -12,7 +12,8 @@ $router = new Router($_GET['url']);
 
 $router->get("/", "Default#index");
 
-$router->get("post/:id", "Post#view");
+$router->get("post/:id", "Post#view")->with(":id", "#[0-9]+#");
+$router->get("posts", "Post#viewAll");
 
 try {
     $router->run();

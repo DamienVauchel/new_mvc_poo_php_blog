@@ -1,0 +1,17 @@
+.post-header
+{
+    padding-top: 2px;
+    padding-bottom: 10px;
+}
+
+.post-postsList
+{
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    width: 100% !important;
+}
+
+.posts-container
+{
+    margin-top: 20px;
+}

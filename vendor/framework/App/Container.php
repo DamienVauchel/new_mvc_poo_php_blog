@@ -14,7 +14,11 @@ class Container
     {
         $params = $this->getTwigParams();
         $loader = new \Twig_Loader_Filesystem(array($params['views_folder']));
+        $twig = new \Twig_Environment($loader, array(
+            'debug'                 => true
+        ));
+        $twig->addExtension(new \Twig_Extension_Debug());
 
-        return new \Twig_Environment($loader);
+        return $twig;
     }
 }
