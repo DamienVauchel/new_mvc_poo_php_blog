@@ -22,6 +22,10 @@
         </div>
     </div>
 
+    <form action="" method="post">
+        <input type="submit" class="btn" value="Ok">
+    </form>
+
     <div class="container" id="home-container">
         <div class="row centered" id="home-row">
             <h4>DERNIERS ARTICLES DU BLOG</h4>
@@ -29,7 +33,7 @@
             {% for post in posts %}
                 <div class="col s3">
                     <div class="moveUp">
-                        <a href="http://{{ constant("ROOT") }}/post/{{ post.id }}">
+                        <a href="http://{{ constant("ROOT") }}/post/{{ post.slug }}">
                             <div class="thumbnail home-post home-post-mobile">
                                 <div>
                                     <img class="img-responsive center-block" src="assets/post_photo/<?= $post->getPhoto(); ?>" alt="">

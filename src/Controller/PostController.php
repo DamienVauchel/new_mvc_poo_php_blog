@@ -15,9 +15,26 @@ class PostController extends Controller
         $this->postManager = new PostManager();
     }
 
-    public function viewAction($id)
+    public function addAction($datas)
     {
-        $post = $this->postManager->findOneById($id);
+        if (!empty($datas)) {
+            $checkedDatas = $this->checkDatas($datas);
+
+            $title = $checkedDatas['title'];
+            $content = $checkedDatas['content'];
+            $author = $checkedDatas['author'];
+            $slug = $this->slugify($title);
+
+            $this->postManager->add($title, $content, $author, $slug);
+            $this->redirectTo("http://".ROOT."/posts");
+        }
+
+        $this->render('public/post/create.html.twig');
+    }
+
+    public function viewAction($slug)
+    {
+        $post = $this->postManager->findOneBySlug($slug);
 
         return $this->render('public/post/view.html.twig', array('post' => $post));
     }

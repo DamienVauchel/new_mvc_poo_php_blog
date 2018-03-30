@@ -21,7 +21,7 @@
     <div class="container posts-container">
         <div class="col m12">
             {% for post in posts %}
-                <a href="http://{{ constant("ROOT") }}/post/{{ post.id }}">
+                <a href="http://{{ constant("ROOT") }}/post/{{ post.slug }}">
                     <div class="row moveUp post-postsList">
                         {#<div class="col m6">#}
                             {#<img class="center-block img-responsive" src="assets/post_photo/<?= $post->getPhoto(); ?>" alt="" style="max-width: 100%;">#}

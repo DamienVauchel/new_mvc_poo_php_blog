@@ -2,7 +2,6 @@
 
 namespace Manager;
 
-use Framework\Exception\ManagerException;
 use Framework\Manager\Manager;
 
 class PostManager extends Manager
@@ -12,10 +11,36 @@ class PostManager extends Manager
         $q = $this->qb
             ->select("*")
             ->from('posts')
-            ->where('id ='.$id)
+            ->where('id = '.$id)
             ->getQuery();
 
         $stmt = $this->db->query($q);
         return $stmt->fetch();
+    }
+
+    public function findOneBySlug($slug)
+    {
+        $q = $this->qb
+            ->select("*")
+            ->from('posts')
+            ->where('slug = ?')
+            ->getQuery();
+
+        $stmt = $this->db->prepare($q);
+        $stmt->execute(array($slug));
+
+        return $stmt->fetch();
+    }
+
+    public function add($title, $content, $author, $slug)
+    {
+        $q = $this->db->prepare('
+            INSERT INTO posts (title, content, author, slug, creation_date)
+            VALUES (?, ?, ?, ?, NOW())
+        ');
+
+        $stmt = $q->execute(array($title, $content, $author, $slug));
+
+        return $stmt;
     }
 }
