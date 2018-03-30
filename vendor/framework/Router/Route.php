@@ -47,7 +47,7 @@ class Route
             $controller = "Controller\\".$params[0]."Controller";
             $controller = new $controller();
 
-            $action = $params[1];
+            $action = $params[1]."Action";
 
             return call_user_func_array(array($controller, $action), $this->matches);
         }

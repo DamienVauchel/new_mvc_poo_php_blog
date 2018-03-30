@@ -2,10 +2,14 @@
 require_once 'vendor/autoload.php';
 
 use Framework\Router\Router;
+use Framework\Database\MySQLDatabase;
+
+$db = new MySQLDatabase();
+$db->connect();
 
 $router = new Router($_GET['url']);
 
-$router->get("/", "Default#goToHome");
+$router->get("/", "Default#index");
 
 try {
     $router->run();

@@ -1,0 +1,6 @@
+database:
+    mysql:
+        dbHost: localhost
+        dbName: poo
+        dbUser: root
+        dbPw:   root
