@@ -3,4 +3,4 @@
 /vendor/twig
 /vendor/composer
 /vendor/symfony
-/vendor/autoload.php
+vendor/autoload.php
