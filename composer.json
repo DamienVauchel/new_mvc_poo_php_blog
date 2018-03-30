@@ -1,0 +1,11 @@
+{
+  "autoload": {
+    "psr-4": {
+      "Controller\\": "src/Controller",
+      "Entity\\": "src/Entity"
+    }
+  },
+  "require": {
+    "twig/twig": "^2.4"
+  }
+}
