@@ -33,6 +33,10 @@
             {% block nav %}{% endblock %}
         </header>
 
+        {% if app.session %}
+            <div class="flash-msg flash-msg-{{ flashMsg.type }} center-align">{{ flashMsg.message }}</div>
+        {% endif %}
+
         {% block body %}{% endblock %}
 
         <footer>

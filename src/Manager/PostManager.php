@@ -38,7 +38,7 @@ class PostManager extends Manager
             ->insertInto('posts', array('title', 'content', 'author', 'slug', 'creation_date'))
             ->values(array('?', '?', '?', '?', 'NOW()'))
             ->getQuery();
-        
+
         $stmt = $this->db->prepare($q);
         $stmt->execute(array($title, $content, $author, $slug));
 

@@ -1,5 +1,10 @@
 <?php
 require_once 'vendor/autoload.php';
+session_start();
+
+if (isset($_SESSION['flash-msg'])) {
+    die(var_dump($_SESSION['flash-msg']));
+}
 
 use Framework\Router\Router;
 
@@ -10,7 +15,7 @@ define('ROOT', $root);
 
 
 $datas = array(
-    'title'             => 'prout',
+    'title'             => 'fff',
     'content'           => 'IT SEEMS to be so good for the moment :D',
     'author'            => 'Damien'
 );

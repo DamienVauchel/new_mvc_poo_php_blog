@@ -4,6 +4,8 @@ namespace Controller;
 
 use Entity\Post;
 use Framework\Controller\Controller;
+use Framework\Session\FlashMessage;
+use Framework\Session\Session;
 use Manager\PostManager;
 
 class PostController extends Controller
@@ -26,7 +28,12 @@ class PostController extends Controller
             $slug = $this->slugify($title);
 
             $this->postManager->add($title, $content, $author, $slug);
-            $this->redirectTo("http://".ROOT."/posts");
+
+            $session = new Session();
+            $flashMsg = new FlashMessage($session);
+            $flashMsg->setMessage('Bienvenue sur la page d\'Accueil', 'success');
+
+            $this->redirectTo('http://'.ROOT.'/');
         }
 
         $this->render('public/post/create.html.twig');
