@@ -22,13 +22,17 @@ class Router
         return $route;
     }
 
-    public function get($path, $callable)
+    public function get($name, $callable)
     {
+        $path = $this->findPath($name);
+
         return $this->add($path, $callable, 'GET');
     }
 
-    public function post($path, $callable)
+    public function post($name, $callable)
     {
+        $path = $this->findPath($name);
+
         return $this->add($path, $callable, 'POST');
     }
 
@@ -45,5 +49,21 @@ class Router
         }
 
         throw new RouterException("No matching routes");
+    }
+
+    public function findPath($name)
+    {
+        $routes = yaml_parse_file('app/config/routes.yaml');
+        $routes = $routes['routes'];
+
+        $path = null;
+
+        foreach ($routes as $route) {
+            if ($route['name'] == $name) {
+                $path = $route['path'];
+            }
+        }
+
+        return $path;
     }
 }

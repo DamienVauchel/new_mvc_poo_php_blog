@@ -17,7 +17,7 @@ class Controller extends Container
 
     public function redirectTo($url)
     {
-         header("Location: ".$url);
+         header("Location: http://".ROOT.$url);
     }
 
     public function checkInput($input)

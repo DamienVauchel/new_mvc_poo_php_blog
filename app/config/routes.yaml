@@ -1,0 +1,12 @@
+routes:
+    home:
+        name: home
+        path: /
+
+    viewPost:
+        name: viewPost
+        path: /post/:id
+
+    viewAllPosts:
+        name: viewAllPosts
+        path: /posts

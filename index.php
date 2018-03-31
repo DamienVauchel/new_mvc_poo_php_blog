@@ -1,10 +1,6 @@
 <?php
-require_once 'vendor/autoload.php';
 session_start();
-
-if (isset($_SESSION['flash-msg'])) {
-    die(var_dump($_SESSION['flash-msg']));
-}
+require_once 'vendor/autoload.php';
 
 use Framework\Router\Router;
 
@@ -22,12 +18,12 @@ $datas = array(
 
 $router = new Router($_GET['url']);
 
-$router->get("/", "Default#index");
+$router->get("home", "Default#index");
 
 
 
 
-$router->post("/", function () use($datas) {
+$router->post("home", function () use($datas) {
     $controller = new \Controller\PostController();
     $controller->addAction($datas);
 });
@@ -37,8 +33,8 @@ $router->post("/", function () use($datas) {
 
 
 
-$router->get("post/:id", "Post#view")->with(":id", "#[0-9]+#");
-$router->get("posts", "Post#viewAll");
+$router->get("viewPost", "Post#view")->with(":id", "#[0-9]+#");
+$router->get("viewAllPosts", "Post#viewAll");
 
 $router->get("/admin/post/create", "Post#add");
 $router->post("/admin/post/create", "Post#add");

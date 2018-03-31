@@ -29,11 +29,7 @@ class PostController extends Controller
 
             $this->postManager->add($title, $content, $author, $slug);
 
-            $session = new Session();
-            $flashMsg = new FlashMessage($session);
-            $flashMsg->setMessage('Bienvenue sur la page d\'Accueil', 'success');
-
-            $this->redirectTo('http://'.ROOT.'/');
+            $this->redirectTo('/');
         }
 
         $this->render('public/post/create.html.twig');
