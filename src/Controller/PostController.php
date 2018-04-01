@@ -29,7 +29,7 @@ class PostController extends Controller
 
             $this->postManager->add($title, $content, $author, $slug);
 
-            $this->redirectTo('/');
+            $this->redirectTo('home');
         }
 
         $this->render('public/post/create.html.twig');

@@ -15,9 +15,27 @@ class Controller extends Container
         }
     }
 
-    public function redirectTo($url)
+    public function redirectTo($name)
     {
+        $url = $this->findPath($name);
+
          header("Location: http://".ROOT.$url);
+    }
+
+    public function findPath($name)
+    {
+        $routes = yaml_parse_file('app/config/routes.yaml');
+        $routes = $routes['routes'];
+
+        $path = null;
+
+        foreach ($routes as $route) {
+            if ($route['name'] == $name) {
+                $path = $route['path'];
+            }
+        }
+
+        return $path;
     }
 
     public function checkInput($input)

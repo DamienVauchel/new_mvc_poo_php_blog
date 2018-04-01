@@ -1,12 +1,12 @@
 routes:
-    home:
+    homepage:
         name: home
         path: /
 
-    viewPost:
+    view one post by its id:
         name: viewPost
         path: /post/:id
 
-    viewAllPosts:
+    view all posts:
         name: viewAllPosts
         path: /posts

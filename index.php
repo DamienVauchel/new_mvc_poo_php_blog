@@ -11,7 +11,7 @@ define('ROOT', $root);
 
 
 $datas = array(
-    'title'             => 'fff',
+    'title'             => 'a',
     'content'           => 'IT SEEMS to be so good for the moment :D',
     'author'            => 'Damien'
 );
