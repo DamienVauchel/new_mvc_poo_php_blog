@@ -24,6 +24,8 @@ class DefaultController extends Controller
             $posts[] = new Post($data);
         }
 
-        return $this->render('public/default/home.html.twig', array('posts' => $posts));
+        return $this->render('public/default/home.html.twig', array(
+            'posts' => $posts
+            ));
     }
 }

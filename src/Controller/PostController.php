@@ -17,8 +17,10 @@ class PostController extends Controller
         $this->postManager = new PostManager();
     }
 
-    public function addAction($datas)
+    public function addAction()
     {
+        $datas = $_POST;
+
         if (!empty($datas)) {
             $checkedDatas = $this->checkDatas($datas);
 

@@ -16,6 +16,7 @@ class Manager
         $dbClass = new MySQLDatabase();
         $dbClass->connect();
         $this->db = $dbClass->getDbConnection();
+        $this->db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
         $this->qb = new QueryBuilder();
     }

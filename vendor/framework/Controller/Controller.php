@@ -3,9 +3,20 @@
 namespace Framework\Controller;
 
 use Framework\App\Container;
+use Framework\Session\FlashMessage;
+use Framework\Session\Session;
 
 class Controller extends Container
 {
+    protected $session = null;
+
+    public function __construct()
+    {
+        if (isset($_SESSION) && !empty($_SESSION)) {
+            $this->session = $_SESSION;
+        }
+    }
+
     public function render($path, array $vars = null)
     {
         if ($vars !== null) {
@@ -63,5 +74,13 @@ class Controller extends Container
         $str = preg_replace('/-+/', "-", $str);
         $slug = rtrim($str, '-');
         return $slug;
+    }
+
+    public function setFlashMessage($message, $type)
+    {
+        $flashMsg = new FlashMessage(new Session());
+        $flashMsg->setMessage($message, $type);
+
+        return $flashMsg;
     }
 }
