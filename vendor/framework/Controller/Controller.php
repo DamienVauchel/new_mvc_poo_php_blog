@@ -173,7 +173,7 @@ class Controller extends Container
      * @return array
      * @throws LoginException
      */
-    protected function getLoggedUserInfos()
+    public function getLoggedUserInfos()
     {
         $loggedUser = $this->getLoggedUser();
 
@@ -194,7 +194,7 @@ class Controller extends Container
      * @return mixed
      * @throws LoginException
      */
-    protected function getLoggedUserRoles()
+    public function getLoggedUserRoles()
     {
         $loggedUser = $this->getLoggedUser();
 

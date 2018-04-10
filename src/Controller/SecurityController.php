@@ -34,6 +34,10 @@ class SecurityController extends Controller
      */
     public function signUpAction()
     {
+        if (isset($_SESSION['loggedUser'])) {
+            return $this->render('public/default/home.html.twig');
+        }
+
         $datas = $_POST;
 
         if (!empty($datas) && isset($datas)) {
@@ -83,6 +87,11 @@ class SecurityController extends Controller
         $this->render('public/security/login.html.twig');
     }
 
+    /**
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
+     */
     public function logoutAction()
     {
         unset($_SESSION);
