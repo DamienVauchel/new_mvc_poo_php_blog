@@ -11,6 +11,10 @@ routes:
         name: login
         path: /login
 
+    logout:
+        name: logout
+        path: /logout
+
     view one post by its id:
         name: viewPost
         path: /post/:id

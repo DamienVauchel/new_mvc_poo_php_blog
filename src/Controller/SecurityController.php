@@ -2,7 +2,10 @@
 
 namespace Controller;
 
+use Entity\User;
 use Framework\Controller\Controller;
+use Framework\Exception\LoginException;
+use Framework\Session\Session;
 use Manager\UserManager;
 
 /**
@@ -39,10 +42,9 @@ class SecurityController extends Controller
             $username = $checkedDatas['username'];
             $email = $checkedDatas['email'];
             $password = $checkedDatas['password'];
+            $hashedPw = $this->encryptPw($password);
 
-            $ok = $this->securityManager->add($username, $email, $password);
-
-//            die(var_dump($ok));
+            $this->securityManager->add($username, $email, $hashedPw);
 
             $this->redirectTo('login');
         }
@@ -54,15 +56,38 @@ class SecurityController extends Controller
      * @throws \Twig_Error_Loader
      * @throws \Twig_Error_Runtime
      * @throws \Twig_Error_Syntax
+     * @throws LoginException
      */
     public function loginAction()
     {
         $datas = $_POST;
 
         if (!empty($datas) && isset($datas)) {
+            $dbDatas = $this->securityManager->findOneByUsername('"'.$datas['username'].'"');
+            $user = new User($dbDatas);
 
+            $hashedPw = $user->getHashedPw();
+
+            if ($this->decryptPw($datas['password'], $hashedPw))
+            {
+                $serializedUser = serialize($user);
+                $session = new Session();
+                $session->set('loggedUser', $serializedUser);
+
+                $this->redirectTo('home');
+            } else {
+                throw new LoginException("Merci de taper le bon mot de passe");
+            }
         }
 
         $this->render('public/security/login.html.twig');
+    }
+
+    public function logoutAction()
+    {
+        unset($_SESSION);
+        session_destroy();
+
+        $this->render('public/default/home.html.twig');
     }
 }

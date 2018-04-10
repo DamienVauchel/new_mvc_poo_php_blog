@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once 'vendor/autoload.php';
 
 use Framework\Router\Router;
@@ -23,6 +24,8 @@ $router->post("signup", "Security#signUp");
 $router->get("login", "Security#login");
 $router->post("login", "Security#login");
 
+$router->get("logout", "Security#logout");
+
 $router->get("home", "Default#index");
 
 //$router->post("home", function () use($datas) {
@@ -32,10 +35,6 @@ $router->get("home", "Default#index");
 
 $router->get("viewPost", "Post#view")->with(":id", "#[0-9]+#");
 $router->get("viewAllPosts", "Post#viewAll");
-
-
-
-
 
 
 

@@ -4,6 +4,7 @@ namespace Controller;
 
 use Entity\Post;
 use Framework\Controller\Controller;
+use Framework\Exception\LoginException;
 use Framework\Session\FlashMessage;
 use Framework\Session\Session;
 use Manager\PostManager;
@@ -31,6 +32,7 @@ class PostController extends Controller
      * @throws \Twig_Error_Loader
      * @throws \Twig_Error_Runtime
      * @throws \Twig_Error_Syntax
+     * @throws LoginException
      */
     public function addAction()
     {
@@ -49,7 +51,9 @@ class PostController extends Controller
             $this->redirectTo('home');
         }
 
-        $this->render('public/post/create.html.twig');
+        $this->roles = $this->getLoggedUserRoles();
+
+        $this->render('public/post/create.html.twig', array('roles' => $this->roles));
     }
 
     /**
@@ -57,12 +61,20 @@ class PostController extends Controller
      * @throws \Twig_Error_Loader
      * @throws \Twig_Error_Runtime
      * @throws \Twig_Error_Syntax
+     * @throws LoginException
      */
     public function viewAction($slug)
     {
+        if (isset($_SESSION['loggedUser']) && !empty($_SESSION['loggedUser'])) {
+            $this->roles = $this->getLoggedUserRoles();
+        }
+
         $post = $this->postManager->findOneBySlug($slug);
 
-        return $this->render('public/post/view.html.twig', array('post' => $post));
+        return $this->render('public/post/view.html.twig', array(
+            'post' => $post,
+            'roles' => $this->roles
+        ));
     }
 
     /**
@@ -70,9 +82,14 @@ class PostController extends Controller
      * @throws \Twig_Error_Loader
      * @throws \Twig_Error_Runtime
      * @throws \Twig_Error_Syntax
+     * @throws LoginException
      */
     public function viewAllAction()
     {
+        if (isset($_SESSION['loggedUser']) && !empty($_SESSION['loggedUser'])) {
+            $this->roles = $this->getLoggedUserRoles();
+        }
+
         $datas = $this->postManager->findAll('posts');
 
         $posts = [];
@@ -80,6 +97,9 @@ class PostController extends Controller
             $posts[] = new Post($data);
         }
 
-        return $this->render('public/post/view_all.html.twig', array('posts' => $posts));
+        return $this->render('public/post/view_all.html.twig', array(
+            'posts' => $posts,
+            'roles' => $this->roles
+        ));
     }
 }

@@ -3,6 +3,7 @@
 namespace Framework\Controller;
 
 use Framework\App\Container;
+use Framework\Exception\LoginException;
 use Framework\Session\FlashMessage;
 use Framework\Session\Session;
 
@@ -16,6 +17,11 @@ class Controller extends Container
      * @var null
      */
     protected $session = null;
+
+    /**
+     * @var null
+     */
+    protected $roles = null;
 
     /**
      * Controller constructor.
@@ -142,6 +148,57 @@ class Controller extends Container
     public function decryptPw($sentPw, $dbPw)
     {
         return password_verify($sentPw, $dbPw);
+    }
+
+    /**
+     * @return mixed
+     * @throws LoginException
+     */
+    public function getLoggedUser()
+    {
+        if (!empty($_SESSION) && isset($_SESSION)) {
+            if (!empty($_SESSION['loggedUser']) && isset($_SESSION['loggedUser'])) {
+                $user = unserialize($_SESSION['loggedUser']);
+
+                return $user;
+            }
+
+            throw new LoginException('No logged User');
+        }
+
+        throw new LoginException('No session');
+    }
+
+    /**
+     * @return array
+     * @throws LoginException
+     */
+    protected function getLoggedUserInfos()
+    {
+        $loggedUser = $this->getLoggedUser();
+
+        $username = $loggedUser->getUsername();
+        $email = $loggedUser->getEmail();
+        $roles = $loggedUser->getRoles();
+
+        $user = [
+            'username'          => $username,
+            'email'             => $email,
+            'roles'             => $roles
+        ];
+
+        return $user;
+    }
+
+    /**
+     * @return mixed
+     * @throws LoginException
+     */
+    protected function getLoggedUserRoles()
+    {
+        $loggedUser = $this->getLoggedUser();
+
+        return $loggedUser->getRoles();
     }
 }
 

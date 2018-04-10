@@ -26,8 +26,22 @@ class UserManager extends Manager
         $stmt = $this->db->prepare($q);
         $stmt->execute(array($username, $email, $password));
 
-        die(var_dump($stmt));
-
         return $stmt;
+    }
+
+    /**
+     * @param $username
+     * @return mixed
+     */
+    public function findOneByUsername($username)
+    {
+        $q = $this->qb
+            ->select("*")
+            ->from('users')
+            ->where('username = '.$username)
+            ->getQuery();
+
+        $stmt = $this->db->query($q);
+        return $stmt->fetch();
     }
 }
