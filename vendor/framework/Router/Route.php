@@ -2,19 +2,44 @@
 
 namespace Framework\Router;
 
+/**
+ * Class Route
+ * @package Framework\Router
+ */
 class Route
 {
+    /**
+     * @var string
+     */
     private $path;
+    /**
+     * @var
+     */
     private $callable;
+    /**
+     * @var array
+     */
     private $matches = array();
+    /**
+     * @var array
+     */
     private $params = array();
 
+    /**
+     * Route constructor.
+     * @param $path
+     * @param $callable
+     */
     public function __construct($path, $callable)
     {
         $this->path = trim($path, '/');
         $this->callable = $callable;
     }
 
+    /**
+     * @param $url
+     * @return bool
+     */
     public function match($url)
     {
         $url = trim($url, '/');
@@ -30,6 +55,10 @@ class Route
         return true;
     }
 
+    /**
+     * @param $match
+     * @return string
+     */
     private function paramMatch($match)
     {
         if (isset($this->params[$match[1]])) {
@@ -39,6 +68,9 @@ class Route
         return '([^/]+)';
     }
 
+    /**
+     * @return mixed
+     */
     public function call()
     {
         if (is_string($this->callable)) {
@@ -55,6 +87,11 @@ class Route
         return call_user_func_array($this->callable, $this->matches);
     }
 
+    /**
+     * @param $param
+     * @param $regex
+     * @return $this
+     */
     public function with($param, $regex)
     {
         $this->params[$param] = str_replace('(', '(?:', $regex);

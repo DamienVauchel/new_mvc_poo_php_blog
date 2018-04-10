@@ -5,15 +5,30 @@ namespace Controller;
 use Framework\Controller\Controller;
 use Manager\UserManager;
 
+/**
+ * Class SecurityController
+ * @package Controller
+ */
 class SecurityController extends Controller
 {
+    /**
+     * @var UserManager
+     */
     private $securityManager;
 
+    /**
+     * SecurityController constructor.
+     */
     public function __construct()
     {
         $this->securityManager = new UserManager();
     }
 
+    /**
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
+     */
     public function signUpAction()
     {
         $datas = $_POST;
@@ -35,6 +50,11 @@ class SecurityController extends Controller
         $this->render('public/security/signup.html.twig');
     }
 
+    /**
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
+     */
     public function loginAction()
     {
         $datas = $_POST;

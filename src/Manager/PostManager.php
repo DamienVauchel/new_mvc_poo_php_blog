@@ -4,8 +4,16 @@ namespace Manager;
 
 use Framework\Manager\Manager;
 
+/**
+ * Class PostManager
+ * @package Manager
+ */
 class PostManager extends Manager
 {
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function findOneById($id)
     {
         $q = $this->qb
@@ -18,6 +26,10 @@ class PostManager extends Manager
         return $stmt->fetch();
     }
 
+    /**
+     * @param $slug
+     * @return mixed
+     */
     public function findOneBySlug($slug)
     {
         $q = $this->qb
@@ -32,6 +44,13 @@ class PostManager extends Manager
         return $stmt->fetch();
     }
 
+    /**
+     * @param $title
+     * @param $content
+     * @param $author
+     * @param $slug
+     * @return bool|\PDOStatement
+     */
     public function add($title, $content, $author, $slug)
     {
         $q = $this->qb

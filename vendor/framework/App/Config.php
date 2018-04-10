@@ -3,16 +3,32 @@
 
 namespace Framework\App;
 
+/**
+ * Class Config
+ * @package Framework\App
+ */
 class Config
 {
+    /**
+     * @var mixed
+     */
     private $parameters;
+    /**
+     * @var
+     */
     private static $instance;
 
+    /**
+     * Config constructor.
+     */
     public function __construct()
     {
         $this->parameters = yaml_parse_file('app/config/parameters.yaml');
     }
 
+    /**
+     * @return Config
+     */
     public static function getInstance()
     {
         if (is_null(self::$instance)) {
@@ -22,6 +38,10 @@ class Config
         return self::$instance;
     }
 
+    /**
+     * @param $key
+     * @return null
+     */
     public function get($key)
     {
         if (!isset($this->parameters[$key])) {

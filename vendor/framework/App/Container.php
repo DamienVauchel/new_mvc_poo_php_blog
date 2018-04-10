@@ -2,14 +2,24 @@
 
 namespace Framework\App;
 
+/**
+ * Class Container
+ * @package Framework\App
+ */
 class Container
 {
+    /**
+     * @return mixed
+     */
     protected function getTwigParams()
     {
         $twigParams = yaml_parse_file('app/config/twig.yaml');
         return $twigParams['twig'];
     }
 
+    /**
+     * @return \Twig_Environment
+     */
     protected function getTwig()
     {
         $params = $this->getTwigParams();

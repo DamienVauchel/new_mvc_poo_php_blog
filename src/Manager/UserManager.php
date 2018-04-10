@@ -4,8 +4,18 @@ namespace Manager;
 
 use Framework\Manager\Manager;
 
+/**
+ * Class UserManager
+ * @package Manager
+ */
 class UserManager extends Manager
 {
+    /**
+     * @param $username
+     * @param $email
+     * @param $password
+     * @return bool|\PDOStatement
+     */
     public function add($username, $email, $password)
     {
         $q = $this->qb

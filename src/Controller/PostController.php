@@ -8,15 +8,30 @@ use Framework\Session\FlashMessage;
 use Framework\Session\Session;
 use Manager\PostManager;
 
+/**
+ * Class PostController
+ * @package Controller
+ */
 class PostController extends Controller
 {
+    /**
+     * @var PostManager
+     */
     private $postManager;
 
+    /**
+     * PostController constructor.
+     */
     public function __construct()
     {
         $this->postManager = new PostManager();
     }
 
+    /**
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
+     */
     public function addAction()
     {
         $datas = $_POST;
@@ -37,6 +52,12 @@ class PostController extends Controller
         $this->render('public/post/create.html.twig');
     }
 
+    /**
+     * @param $slug
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
+     */
     public function viewAction($slug)
     {
         $post = $this->postManager->findOneBySlug($slug);
@@ -44,6 +65,12 @@ class PostController extends Controller
         return $this->render('public/post/view.html.twig', array('post' => $post));
     }
 
+    /**
+     * @throws \Framework\Exception\ManagerException
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
+     */
     public function viewAllAction()
     {
         $datas = $this->postManager->findAll('posts');
