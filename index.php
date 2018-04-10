@@ -47,13 +47,19 @@ $router->get("viewAllPosts", "Post#viewAll");
 /*################## ADMIN ROUTES ############################*/
 if ($roles) {
     if ($roles == "ROLE_ADMIN") {
+        $router->get("admin", "Admin#index");
+
         $router->get("createPost", "Post#add");
         $router->post("createPost", "Post#add");
     } else {
-        $router->get("createPost", function () use($controller) { $controller->redirectTo('home'); });
+        $router->get("createPost", "Post#add");
+        $router->post("createPost", "Post#add");
+
+        $router->get("admin", function () use($controller) { $controller->redirectTo('home'); });
     }
 } else {
     $router->get("createPost", function () use($controller) { $controller->redirectTo('home'); });
+    $router->get("admin", function () use($controller) { $controller->redirectTo('home'); });
 }
 
 

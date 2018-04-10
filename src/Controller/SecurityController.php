@@ -88,15 +88,13 @@ class SecurityController extends Controller
     }
 
     /**
-     * @throws \Twig_Error_Loader
-     * @throws \Twig_Error_Runtime
-     * @throws \Twig_Error_Syntax
+     * Logout action
      */
     public function logoutAction()
     {
         unset($_SESSION);
         session_destroy();
 
-        $this->render('public/default/home.html.twig');
+        $this->redirectTo('home');
     }
 }

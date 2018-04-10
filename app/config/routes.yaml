@@ -23,6 +23,10 @@ routes:
         name: viewAllPosts
         path: /posts
 
+    admin panel index:
+        name: admin
+        path: /admin
+
     create a post:
         name: createPost
         path: /admin/create/post
