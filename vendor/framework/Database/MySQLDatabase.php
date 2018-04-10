@@ -4,15 +4,37 @@ namespace Framework\Database;
 
 use Framework\App\Config;
 
+/**
+ * Class MySQLDatabase
+ * @package Framework\Database
+ */
 class MySQLDatabase
 {
+    /**
+     * @var
+     */
     private $dbHost;
+    /**
+     * @var
+     */
     private $dbName;
+    /**
+     * @var
+     */
     private $dbUser;
+    /**
+     * @var
+     */
     private $dbPw;
 
+    /**
+     * @var
+     */
     private $connection;
 
+    /**
+     * MySQLDatabase constructor.
+     */
     public function __construct()
     {
         $params = Config::getInstance()->get('database')['mysql'];
@@ -22,6 +44,9 @@ class MySQLDatabase
         $this->dbPw = $params['dbPw'];
     }
 
+    /**
+     * @return \PDO
+     */
     public function connect()
     {
         try {
@@ -33,11 +58,17 @@ class MySQLDatabase
         return $this->connection;
     }
 
+    /**
+     *
+     */
     public function disconnect()
     {
         $this->connection = null;
     }
 
+    /**
+     * @return \PDO
+     */
     public function getDbConnection()
     {
         if ($this->connection instanceof \PDO) {

@@ -3,6 +3,18 @@ routes:
         name: home
         path: /
 
+    signup:
+        name: signup
+        path: /signup
+
+    login:
+        name: login
+        path: /login
+
+    logout:
+        name: logout
+        path: /logout
+
     view one post by its id:
         name: viewPost
         path: /post/:id
@@ -10,3 +22,7 @@ routes:
     view all posts:
         name: viewAllPosts
         path: /posts
+
+    create a post:
+        name: createPost
+        path: /admin/create/post

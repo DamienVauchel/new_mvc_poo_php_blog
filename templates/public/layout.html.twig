@@ -16,7 +16,15 @@
                 <ul class="right hide-on-med-and-down">
                     <li><a href="http://{{ constant("ROOT") }}/">Accueil</a></li>
                     <li><a href="http://{{ constant("ROOT") }}/posts">Blog</a></li>
-                    <li><a href="http://{{ constant("ROOT") }}/admin">Admin</a></li>
+                    {% if roles == 'ROLE_ADMIN' %}
+                        <li><a href="http://{{ constant("ROOT") }}/admin">Admin</a></li>
+                    {% endif %}
+                    {% if roles %}
+                        <li><a href="http://{{ constant("ROOT") }}/logout">Déconnexion</a></li>
+                    {% else %}
+                        <li><a href="http://{{ constant("ROOT") }}/signup">S'inscrire</a></li>
+                        <li><a href="http://{{ constant("ROOT") }}/login">Connexion</a></li>
+                    {% endif %}
                 </ul>
             </div>
         </div>

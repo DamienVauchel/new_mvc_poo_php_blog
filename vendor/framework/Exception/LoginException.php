@@ -4,10 +4,10 @@ namespace Framework\Exception;
 
 
 /**
- * Class ManagerException
+ * Class LoginException
  * @package Framework\Exception
  */
-class ManagerException extends \Exception
+class LoginException extends \Exception
 {
 
 }

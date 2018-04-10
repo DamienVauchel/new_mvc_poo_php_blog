@@ -5,21 +5,51 @@ namespace Framework\Database;
 
 use function PHPSTORM_META\elementType;
 
+/**
+ * Class QueryBuilder
+ * @package Framework\Database
+ */
 class QueryBuilder
 {
+    /**
+     * @var array
+     */
     private $select = [];
+    /**
+     * @var array
+     */
     private $where = [];
+    /**
+     * @var array
+     */
     private $from = [];
+    /**
+     * @var
+     */
     private $insertionTable;
+    /**
+     * @var array
+     */
     private $fieldsToInsert = [];
+    /**
+     * @var array
+     */
     private $valuesToInsert = [];
 
+    /**
+     * @return $this
+     */
     public function select()
     {
         $this->select = func_get_args();
         return $this;
     }
 
+    /**
+     * @param $table
+     * @param array $fields
+     * @return $this
+     */
     public function insertInto($table, array $fields)
     {
         $this->insertionTable = $table;
@@ -27,12 +57,19 @@ class QueryBuilder
         return $this;
     }
 
+    /**
+     * @param array $values
+     * @return $this
+     */
     public function values(array $values)
     {
         $this->valuesToInsert = $values;
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function where()
     {
         foreach (func_get_args() as $arg) {
@@ -41,6 +78,11 @@ class QueryBuilder
         return $this;
     }
 
+    /**
+     * @param $table
+     * @param null $alias
+     * @return $this
+     */
     public function from($table, $alias = null)
     {
         if ($alias === null) {
@@ -51,6 +93,9 @@ class QueryBuilder
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getQuery()
     {
         $select = null;
