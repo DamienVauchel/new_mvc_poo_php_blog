@@ -3,6 +3,7 @@
 namespace Framework\Router;
 
 use Framework\Exception\RouterException;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Class Router
@@ -91,7 +92,7 @@ class Router
      */
     public function findPath($name)
     {
-        $routes = yaml_parse_file('app/config/routes.yaml');
+        $routes = Yaml::parseFile('app/config/routes.yaml');
         $routes = $routes['routes'];
 
         $path = null;
