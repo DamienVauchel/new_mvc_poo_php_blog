@@ -39,6 +39,7 @@ $router->get("logout", "Security#logout");
 
 /*################## DEFAULT ROUTES ############################*/
 $router->get("home", "Default#index");
+$router->post("home", "Default#index");
 
 /*################## POSTS ROUTES ############################*/
 $router->get("viewPost", "Post#view")->with(":id", "#[0-9]+#");

@@ -5,6 +5,7 @@ namespace Controller;
 use Entity\Post;
 use Framework\Controller\Controller;
 use Framework\Exception\LoginException;
+use Framework\Mailer\Mailer;
 use Manager\PostManager;
 
 /**
@@ -34,15 +35,31 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        $datas = $this->manager->findFourLast();
+        $dbDatas = $this->manager->findFourLast();
+        $datas = $_POST;
 
         $posts = [];
-        foreach ($datas as $data) {
+        foreach ($dbDatas as $data) {
             $posts[] = new Post($data);
         }
 
         if (isset($_SESSION['loggedUser']) && !empty($_SESSION['loggedUser'])) {
             $this->roles = $this->getLoggedUserRoles();
+        }
+
+        if (!empty($datas)) {
+            $checkedDatas = $this->checkDatas($datas);
+
+            $firstname = $checkedDatas['firstname'];
+            $lastname = $checkedDatas['lastname'];
+            $email = $checkedDatas['email'];
+            $subject = $checkedDatas['subject'];
+            $message = $checkedDatas['message'];
+
+            $mailer = new Mailer();
+            $mailer->sendMail($lastname, $firstname, $email, $subject, $message);
+
+            $this->redirectTo('home');
         }
 
         return $this->render('public/default/home.html.twig', array(
