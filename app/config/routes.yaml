@@ -23,10 +23,18 @@ routes:
         name: viewAllPosts
         path: /posts
 
+    update one post by its id:
+        name: editPost
+        path: /edit/post/:id
+
+    delete one post by its id:
+        name: deletePost
+        path: /delete/post/:id
+
     admin panel index:
         name: admin
         path: /admin
 
     create a post:
         name: createPost
-        path: /admin/create/post
+        path: /create/post

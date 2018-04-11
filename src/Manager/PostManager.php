@@ -63,4 +63,25 @@ class PostManager extends Manager
 
         return $stmt;
     }
+
+    /**
+     * @param $title
+     * @param $content
+     * @param $slug
+     * @return bool|\PDOStatement
+     */
+    public function update($title, $content, $slug)
+    {
+        $q = $this->qb
+            ->update('posts')
+            ->set(array('title' => '?', 'content' => '?', 'slug' => '?', 'last_update_date' => 'NOW()'))
+            ->where('slug = "'.$slug.'"')
+            ->getQuery();
+
+        $stmt = $this->db->prepare($q);
+
+        $stmt->execute(array($title, $content, $slug));
+
+        return $stmt;
+    }
 }

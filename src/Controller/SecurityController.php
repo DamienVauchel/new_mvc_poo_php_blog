@@ -67,12 +67,14 @@ class SecurityController extends Controller
         $datas = $_POST;
 
         if (!empty($datas) && isset($datas)) {
+            $checkedDatas = $this->checkDatas($datas);
+
             $dbDatas = $this->securityManager->findOneByUsername('"'.$datas['username'].'"');
             $user = new User($dbDatas);
 
             $hashedPw = $user->getHashedPw();
 
-            if ($this->decryptPw($datas['password'], $hashedPw))
+            if ($this->decryptPw($checkedDatas['password'], $hashedPw))
             {
                 $serializedUser = serialize($user);
                 $session = new Session();

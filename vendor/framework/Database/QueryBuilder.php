@@ -35,6 +35,14 @@ class QueryBuilder
      * @var array
      */
     private $valuesToInsert = [];
+    /**
+     * @var array
+     */
+    private $update = [];
+    /**
+     * @var array
+     */
+    private $updateSets = [];
 
     /**
      * @return $this
@@ -54,6 +62,30 @@ class QueryBuilder
     {
         $this->insertionTable = $table;
         $this->fieldsToInsert = $fields;
+        return $this;
+    }
+
+    /**
+     * @param $table
+     * @return $this
+     */
+    public function update($table)
+    {
+        $this->select = null;
+        $this->where = null;
+        $this->from = null;
+        $this->update = $table;
+
+        return $this;
+    }
+
+    /**
+     * @param array $sets
+     * @return $this
+     */
+    public function set(array $sets)
+    {
+        $this->updateSets = $sets;
         return $this;
     }
 
@@ -104,6 +136,8 @@ class QueryBuilder
         $valuesToInsert = null;
         $from = null;
         $where = null;
+        $update = null;
+        $updateSets = null;
 
         if (!empty($this->select)) {
             $select = 'SELECT '.implode(', ', $this->select);
@@ -141,6 +175,24 @@ class QueryBuilder
             $valuesToInsert .= ')';
         }
 
+        if (!empty($this->update)) {
+            $update = 'UPDATE '.$this->update;
+        }
+
+        if (!empty($this->updateSets)) {
+            end($this->updateSets);
+            $lastValue = key($this->updateSets);
+
+            $updateSets = " SET ";
+            foreach ($this->updateSets as $field => $value) {
+                if ($field != $lastValue) {
+                    $updateSets .= $field.' = '.$value.', ';
+                } else {
+                    $updateSets .= $field.' = '.$value;
+                }
+            }
+        }
+
         if (!empty($this->from)) {
             $from = ' FROM '.implode(', ', $this->from);
         }
@@ -149,6 +201,6 @@ class QueryBuilder
             $where = ' WHERE '.implode(' AND ', $this->where);
         }
 
-        return $select.$insertionTable.$fieldsToInsert.$valuesToInsert.$from.$where;
+        return $select.$insertionTable.$fieldsToInsert.$valuesToInsert.$update.$updateSets.$from.$where;
     }
 }

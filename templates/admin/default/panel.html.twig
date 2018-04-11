@@ -1,5 +1,32 @@
 {% extends 'admin/layout.html.twig' %}
 
 {% block body %}
- OK T'ES ADMIN mon gars
+    <div class="container">
+        <br>
+        <a href="http://{{ constant("ROOT") }}/create/post" class="btn green darken-2 right"><i class="material-icons left">add</i> Nouvel article</a>
+
+        <table class="highlight">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Titre</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+
+            <tbody>
+                {% for post in posts %}
+                    <tr>
+                        <td>{{ post.id }}</td>
+                        <td>{{ post.title }}</td>
+                        <td>
+                            <a href="http://{{ constant("ROOT") }}/post/{{ post.slug }}" class="btn green darken-4"><i class="material-icons">visibility</i></a>
+                            <a href="http://{{ constant("ROOT") }}/edit/post/{{ post.slug }}" class="btn indigo darken-4"><i class="material-icons">edit</i></a>
+                            <a href="http://{{ constant("ROOT") }}/delete/post/{{ post.slug }}" class="btn red darken-4"><i class="material-icons">delete</i></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

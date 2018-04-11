@@ -43,7 +43,7 @@ class PostController extends Controller
 
             $title = $checkedDatas['title'];
             $content = $checkedDatas['content'];
-            $author = $checkedDatas['author'];
+            $author = $this->getLoggedUserUsername();
             $slug = $this->slugify($title);
 
             $this->postManager->add($title, $content, $author, $slug);
@@ -100,6 +100,39 @@ class PostController extends Controller
         return $this->render('public/post/view_all.html.twig', array(
             'posts' => $posts,
             'roles' => $this->roles
+        ));
+    }
+
+    /**
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
+     */
+    public function editAction()
+    {
+        $get = explode('/', $_GET['url']);
+        $get = $this->checkDatas($get);
+        $slug = $get[2];
+
+        $dbDatas = $this->postManager->findOneBySlug($slug);
+        $post = new Post($dbDatas);
+
+        $datas = $_POST;
+
+        if (!empty($datas)) {
+            $checkedDatas = $this->checkDatas($datas);
+
+            $title = $checkedDatas['title'];
+            $content = $checkedDatas['content'];
+            $slug = $this->slugify($title);
+
+            $this->postManager->update($title, $content, $slug);
+
+            $this->redirectTo('home');
+        }
+
+        $this->render('public/post/edit.html.twig', array(
+            'post' => $post
         ));
     }
 }
