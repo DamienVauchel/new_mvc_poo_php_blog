@@ -135,4 +135,29 @@ class PostController extends Controller
             'post' => $post
         ));
     }
+
+    /**
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
+     */
+    public function deleteAction()
+    {
+        $get = explode('/', $_GET['url']);
+        $get = $this->checkDatas($get);
+        $slug = $get[2];
+
+        $dbDatas = $this->postManager->findOneBySlug($slug);
+        $post = new Post($dbDatas);
+
+        if (isset($_POST['deleteSubmit'])) {
+            $this->postManager->delete($slug);
+
+            $this->redirectTo('admin');
+        }
+
+        $this->render('public/post/delete.html.twig', array(
+            'post' => $post
+        ));
+    }
 }

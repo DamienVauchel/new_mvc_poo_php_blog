@@ -1,0 +1,23 @@
+{% extends 'public/layout.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="form-container" id="signup-container">
+            <form class="col s12" method="post" action="http://{{ constant("ROOT") }}/delete/post/{{ post.slug }}">
+                <h5>Etes-vous sûr de vouloir supprimer l'article {{ post.title }} ?</h5>
+                <div class="row">
+                    <div class="col s6">
+                        <div class="input-field inline">
+                            <a href="http://{{ constant("ROOT") }}/admin" class="btn indigo darken-4 hoverable">Retour au panneau Admin</a>
+                        </div>
+                    </div>
+                    <div class="col s6">
+                        <div class="input-field inline">
+                            <input type="submit" name="deleteSubmit" class="btn red darken-4 hoverable" value="Supprimer l'article">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

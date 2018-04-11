@@ -20,6 +20,7 @@
                         <li><a href="http://{{ constant("ROOT") }}/admin">Admin</a></li>
                     {% endif %}
                     {% if roles %}
+                        <li><a href="http://{{ constant("ROOT") }}/create/post" class="green darken-4">Ajouter un article</a></li>
                         <li><a href="http://{{ constant("ROOT") }}/logout" class="red darken-4">Déconnexion</a></li>
                     {% else %}
                         <li><a href="http://{{ constant("ROOT") }}/signup" class="green darken-4">S'inscrire</a></li>

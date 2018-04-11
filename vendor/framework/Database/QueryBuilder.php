@@ -43,6 +43,18 @@ class QueryBuilder
      * @var array
      */
     private $updateSets = [];
+    /**
+     * @var array
+     */
+    private $delete = [];
+    /**
+     * @var array
+     */
+    private $orderBy = [];
+    /**
+     * @var array
+     */
+    private $orderOption = [];
 
     /**
      * @return $this
@@ -74,7 +86,27 @@ class QueryBuilder
         $this->select = null;
         $this->where = null;
         $this->from = null;
+        $this->insertionTable = null;
+        $this->fieldsToInsert = null;
+        $this->orderBy = null;
         $this->update = $table;
+
+        return $this;
+    }
+
+    /**
+     * @param $table
+     * @return $this
+     */
+    public function delete($table)
+    {
+        $this->select = null;
+        $this->where = null;
+        $this->from = null;
+        $this->insertionTable = null;
+        $this->fieldsToInsert = null;
+        $this->orderBy = null;
+        $this->delete = $table;
 
         return $this;
     }
@@ -126,6 +158,19 @@ class QueryBuilder
     }
 
     /**
+     * @param $order
+     * @param string $options
+     * @return $this
+     */
+    public function orderBy($order, $options = 'DESC')
+    {
+        $this->orderBy = $order;
+        $this->orderOption = $options;
+
+        return $this;
+    }
+
+    /**
      * @return string
      */
     public function getQuery()
@@ -138,6 +183,8 @@ class QueryBuilder
         $where = null;
         $update = null;
         $updateSets = null;
+        $delete = null;
+        $orderBy = null;
 
         if (!empty($this->select)) {
             $select = 'SELECT '.implode(', ', $this->select);
@@ -193,6 +240,14 @@ class QueryBuilder
             }
         }
 
+        if (!empty($this->orderBy) && !empty($this->orderOption)) {
+            $orderBy = ' ORDER BY '.$this->orderBy.' '.$this->orderOption;
+        }
+
+        if (!empty($this->delete)) {
+            $delete = "DELETE FROM ".$this->delete;
+        }
+
         if (!empty($this->from)) {
             $from = ' FROM '.implode(', ', $this->from);
         }
@@ -201,6 +256,6 @@ class QueryBuilder
             $where = ' WHERE '.implode(' AND ', $this->where);
         }
 
-        return $select.$insertionTable.$fieldsToInsert.$valuesToInsert.$update.$updateSets.$from.$where;
+        return $select.$delete.$insertionTable.$fieldsToInsert.$valuesToInsert.$update.$updateSets.$from.$where.$orderBy;
     }
 }

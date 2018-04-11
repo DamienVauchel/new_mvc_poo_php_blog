@@ -84,4 +84,18 @@ class PostManager extends Manager
 
         return $stmt;
     }
+
+    public function delete($slug)
+    {
+        $q = $this->qb
+            ->delete('posts')
+            ->where('slug = "'.$slug.'"')
+            ->getQuery();
+
+        $stmt = $this->db->prepare($q);
+
+        $stmt->execute(array($slug));
+
+        return $stmt;
+    }
 }
