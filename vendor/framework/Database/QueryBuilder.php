@@ -35,6 +35,30 @@ class QueryBuilder
      * @var array
      */
     private $valuesToInsert = [];
+    /**
+     * @var array
+     */
+    private $update = [];
+    /**
+     * @var array
+     */
+    private $updateSets = [];
+    /**
+     * @var array
+     */
+    private $delete = [];
+    /**
+     * @var array
+     */
+    private $orderBy = [];
+    /**
+     * @var array
+     */
+    private $orderOption = [];
+    /**
+     * @var array
+     */
+    private $limit = [];
 
     /**
      * @return $this
@@ -54,6 +78,50 @@ class QueryBuilder
     {
         $this->insertionTable = $table;
         $this->fieldsToInsert = $fields;
+        return $this;
+    }
+
+    /**
+     * @param $table
+     * @return $this
+     */
+    public function update($table)
+    {
+        $this->select = null;
+        $this->where = null;
+        $this->from = null;
+        $this->insertionTable = null;
+        $this->fieldsToInsert = null;
+        $this->orderBy = null;
+        $this->update = $table;
+
+        return $this;
+    }
+
+    /**
+     * @param $table
+     * @return $this
+     */
+    public function delete($table)
+    {
+        $this->select = null;
+        $this->where = null;
+        $this->from = null;
+        $this->insertionTable = null;
+        $this->fieldsToInsert = null;
+        $this->orderBy = null;
+        $this->delete = $table;
+
+        return $this;
+    }
+
+    /**
+     * @param array $sets
+     * @return $this
+     */
+    public function set(array $sets)
+    {
+        $this->updateSets = $sets;
         return $this;
     }
 
@@ -94,6 +162,30 @@ class QueryBuilder
     }
 
     /**
+     * @param $order
+     * @param string $options
+     * @return $this
+     */
+    public function orderBy($order, $options = 'DESC')
+    {
+        $this->orderBy = $order;
+        $this->orderOption = $options;
+
+        return $this;
+    }
+
+    /**
+     * @param $limit
+     * @return $this
+     */
+    public function limit($limit)
+    {
+        $this->limit = $limit;
+
+        return $this;
+    }
+
+    /**
      * @return string
      */
     public function getQuery()
@@ -104,6 +196,11 @@ class QueryBuilder
         $valuesToInsert = null;
         $from = null;
         $where = null;
+        $update = null;
+        $updateSets = null;
+        $delete = null;
+        $orderBy = null;
+        $limit = null;
 
         if (!empty($this->select)) {
             $select = 'SELECT '.implode(', ', $this->select);
@@ -141,6 +238,32 @@ class QueryBuilder
             $valuesToInsert .= ')';
         }
 
+        if (!empty($this->update)) {
+            $update = 'UPDATE '.$this->update;
+        }
+
+        if (!empty($this->updateSets)) {
+            end($this->updateSets);
+            $lastValue = key($this->updateSets);
+
+            $updateSets = " SET ";
+            foreach ($this->updateSets as $field => $value) {
+                if ($field != $lastValue) {
+                    $updateSets .= $field.' = '.$value.', ';
+                } else {
+                    $updateSets .= $field.' = '.$value;
+                }
+            }
+        }
+
+        if (!empty($this->orderBy) && !empty($this->orderOption)) {
+            $orderBy = ' ORDER BY '.$this->orderBy.' '.$this->orderOption;
+        }
+
+        if (!empty($this->delete)) {
+            $delete = "DELETE FROM ".$this->delete;
+        }
+
         if (!empty($this->from)) {
             $from = ' FROM '.implode(', ', $this->from);
         }
@@ -149,6 +272,10 @@ class QueryBuilder
             $where = ' WHERE '.implode(' AND ', $this->where);
         }
 
-        return $select.$insertionTable.$fieldsToInsert.$valuesToInsert.$from.$where;
+        if (!empty($this->limit)) {
+            $limit = ' LIMIT '.$this->limit;
+        }
+
+        return $select.$delete.$insertionTable.$fieldsToInsert.$valuesToInsert.$update.$updateSets.$from.$where.$orderBy.$limit;
     }
 }

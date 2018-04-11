@@ -6,6 +6,7 @@ use Framework\App\Container;
 use Framework\Exception\LoginException;
 use Framework\Session\FlashMessage;
 use Framework\Session\Session;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Class Controller
@@ -65,7 +66,7 @@ class Controller extends Container
      */
     public function findPath($name)
     {
-        $routes = yaml_parse_file('app/config/routes.yaml');
+        $routes = Yaml::parseFile('app/config/routes.yaml');
         $routes = $routes['routes'];
 
         $path = null;
@@ -199,6 +200,17 @@ class Controller extends Container
         $loggedUser = $this->getLoggedUser();
 
         return $loggedUser->getRoles();
+    }
+
+    /**
+     * @return mixed
+     * @throws LoginException
+     */
+    public function getLoggedUserUsername()
+    {
+        $loggedUser = $this->getLoggedUser();
+
+        return $loggedUser->getUsername();
     }
 }
 

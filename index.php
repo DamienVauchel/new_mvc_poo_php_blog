@@ -47,13 +47,31 @@ $router->get("viewAllPosts", "Post#viewAll");
 /*################## ADMIN ROUTES ############################*/
 if ($roles) {
     if ($roles == "ROLE_ADMIN") {
+        $router->get("admin", "Admin#index");
+
         $router->get("createPost", "Post#add");
         $router->post("createPost", "Post#add");
+
+        $router->get("editPost", "Post#edit");
+        $router->post("editPost", "Post#edit");
+
+        $router->get("deletePost", "Post#delete");
+        $router->post("deletePost", "Post#delete");
     } else {
-        $router->get("createPost", function () use($controller) { $controller->redirectTo('home'); });
+        $router->get("createPost", "Post#add");
+        $router->post("createPost", "Post#add");
+
+        $router->get("editPost", function () use($controller) { $controller->redirectTo('home'); });
+
+        $router->get("deletePost", function () use($controller) { $controller->redirectTo('home'); });
+
+        $router->get("admin", function () use($controller) { $controller->redirectTo('home'); });
     }
 } else {
     $router->get("createPost", function () use($controller) { $controller->redirectTo('home'); });
+    $router->get("editPost", function () use($controller) { $controller->redirectTo('home'); });
+    $router->get("deletePost", function () use($controller) { $controller->redirectTo('home'); });
+    $router->get("admin", function () use($controller) { $controller->redirectTo('home'); });
 }
 
 

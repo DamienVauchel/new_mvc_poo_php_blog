@@ -11,6 +11,23 @@ use Framework\Manager\Manager;
 class PostManager extends Manager
 {
     /**
+     * @return array
+     */
+    public function findFourLast()
+    {
+        $q = $this->qb
+            ->select("*")
+            ->from('posts')
+            ->orderBy('creation_date')
+            ->limit(4)
+            ->getQuery();
+
+        $stmt = $this->db->query($q);
+
+        return $stmt->fetchAll();
+    }
+
+    /**
      * @param $id
      * @return mixed
      */
@@ -60,6 +77,45 @@ class PostManager extends Manager
 
         $stmt = $this->db->prepare($q);
         $stmt->execute(array($title, $content, $author, $slug));
+
+        return $stmt;
+    }
+
+    /**
+     * @param $title
+     * @param $content
+     * @param $slug
+     * @return bool|\PDOStatement
+     */
+    public function update($title, $content, $slug)
+    {
+        $q = $this->qb
+            ->update('posts')
+            ->set(array('title' => '?', 'content' => '?', 'slug' => '?', 'last_update_date' => 'NOW()'))
+            ->where('slug = "'.$slug.'"')
+            ->getQuery();
+
+        $stmt = $this->db->prepare($q);
+
+        $stmt->execute(array($title, $content, $slug));
+
+        return $stmt;
+    }
+
+    /**
+     * @param $slug
+     * @return bool|\PDOStatement
+     */
+    public function delete($slug)
+    {
+        $q = $this->qb
+            ->delete('posts')
+            ->where('slug = "'.$slug.'"')
+            ->getQuery();
+
+        $stmt = $this->db->prepare($q);
+
+        $stmt->execute(array($slug));
 
         return $stmt;
     }

@@ -3,6 +3,8 @@
 
 namespace Framework\App;
 
+use Symfony\Component\Yaml\Yaml;
+
 /**
  * Class Config
  * @package Framework\App
@@ -23,7 +25,7 @@ class Config
      */
     public function __construct()
     {
-        $this->parameters = yaml_parse_file('app/config/parameters.yaml');
+        $this->parameters = Yaml::parseFile('app/config/parameters.yaml');
     }
 
     /**

@@ -45,9 +45,11 @@ class Manager
             $q = $this->qb
                 ->select("*")
                 ->from($table)
+                ->orderBy('creation_date')
                 ->getQuery();
 
             $stmt = $this->db->query($q);
+
             return $stmt->fetchAll();
         }
         

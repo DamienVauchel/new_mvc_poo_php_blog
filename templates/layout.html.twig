@@ -21,6 +21,9 @@
         <!-- Material Icons -->
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
+        <!-- ############################################## FONT AWESOME ################################### -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+
 
         <link rel="stylesheet" href="public/css/main.css">
         {% block stylesheets %}{% endblock %}
@@ -40,6 +43,18 @@
         {% block body %}{% endblock %}
 
         <footer>
+            <div class="container">
+                <div class="row center-align">
+                    <div class="col m1"></div>
+                    <div class="col m10">
+                        <a href="http://www.damienvauchel.com" target="_blank"><i class="fa fa-user" aria-hidden="true"></i></a>
+                        <a href="https://www.linkedin.com/in/damien-vauchel/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://twitter.com/Scooby_Dam" target="_blank"><i class="fab fa-twitter"></i></a>
+                        <a href="https://github.com/DamienVauchel" target="_blank"><i class="fab fa-github"></i></a>
+                    </div>
+                    <div class="col m1"><a href="#header" id="gotop"><i class="fa fa-angle-up" aria-hidden="true"></i></a></div>
+                </div><!-- row -->
+            </div><!-- container -->
             {% block footer %}{% endblock %}
 
             <script src="public/js/main.js"></script>

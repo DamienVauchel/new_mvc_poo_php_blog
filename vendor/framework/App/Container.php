@@ -2,6 +2,8 @@
 
 namespace Framework\App;
 
+use Symfony\Component\Yaml\Yaml;
+
 /**
  * Class Container
  * @package Framework\App
@@ -13,7 +15,7 @@ class Container
      */
     protected function getTwigParams()
     {
-        $twigParams = yaml_parse_file('app/config/twig.yaml');
+        $twigParams = Yaml::parseFile('app/config/twig.yaml');
         return $twigParams['twig'];
     }
 
