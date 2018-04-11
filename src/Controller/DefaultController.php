@@ -27,7 +27,6 @@ class DefaultController extends Controller
     }
 
     /**
-     * @throws \Framework\Exception\ManagerException
      * @throws \Twig_Error_Loader
      * @throws \Twig_Error_Runtime
      * @throws \Twig_Error_Syntax
@@ -35,7 +34,7 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        $datas = $this->manager->findAll('posts');
+        $datas = $this->manager->findFourLast();
 
         $posts = [];
         foreach ($datas as $data) {

@@ -55,6 +55,10 @@ class QueryBuilder
      * @var array
      */
     private $orderOption = [];
+    /**
+     * @var array
+     */
+    private $limit = [];
 
     /**
      * @return $this
@@ -171,6 +175,17 @@ class QueryBuilder
     }
 
     /**
+     * @param $limit
+     * @return $this
+     */
+    public function limit($limit)
+    {
+        $this->limit = $limit;
+
+        return $this;
+    }
+
+    /**
      * @return string
      */
     public function getQuery()
@@ -185,6 +200,7 @@ class QueryBuilder
         $updateSets = null;
         $delete = null;
         $orderBy = null;
+        $limit = null;
 
         if (!empty($this->select)) {
             $select = 'SELECT '.implode(', ', $this->select);
@@ -256,6 +272,10 @@ class QueryBuilder
             $where = ' WHERE '.implode(' AND ', $this->where);
         }
 
-        return $select.$delete.$insertionTable.$fieldsToInsert.$valuesToInsert.$update.$updateSets.$from.$where.$orderBy;
+        if (!empty($this->limit)) {
+            $limit = ' LIMIT '.$this->limit;
+        }
+
+        return $select.$delete.$insertionTable.$fieldsToInsert.$valuesToInsert.$update.$updateSets.$from.$where.$orderBy.$limit;
     }
 }

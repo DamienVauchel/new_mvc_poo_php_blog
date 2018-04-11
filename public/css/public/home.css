@@ -3,3 +3,22 @@
     background: url("../../img/header-bg.jpg") no-repeat center top;
     padding: 5% 0;
 }
+
+.home-post
+{
+    width: 100%;
+}
+
+.thumbnail
+{
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.thumbnail h3
+{
+    font-size: 1em;
+}
+
