@@ -84,11 +84,6 @@ class PostController extends Controller
             $comments[] = new Comment($data);
         }
 
-        $pagination = new Pagination($comments, 5);
-        $paginatedDatas = $pagination->pagine($comments);
-        $comments = $paginatedDatas['datas'];
-        $navigation = $paginatedDatas['navigation'];
-
         $postedDatas = $_POST;
 
         if (!empty($postedDatas)) {
@@ -109,8 +104,6 @@ class PostController extends Controller
         return $this->render('public/post/view.html.twig', array(
             'post' => $post,
             'comments' => $comments,
-            'pagination' => $pagination,
-            'navigation' => $navigation,
             'roles' => $this->roles
         ));
     }

@@ -33,7 +33,7 @@
         <div class="comments">
             <h4>Commentaires</h4>
 
-            {% if roles == 'ROLE_ADMIN' %}
+            {% if roles %}
                 <div class="form-container">
                     <form class="col s12" method="post" action="http://{{ constant("ROOT") }}/post/{{ post.slug }}">
                         <div class="row">
@@ -77,13 +77,13 @@
 
                 <ul class="pagination center-align">
                     {% if pagination.actualPage != 0 %}
-                        <li><a href="http://{{ constant("ROOT") }}/posts?page={{ pagination.previous }}"><i class="material-icons">chevron_left</i></a></li>
+                        <li><a href="http://{{ constant("ROOT") }}/post/{{ post.slug }}?page={{ pagination.previous }}"><i class="material-icons">chevron_left</i></a></li>
                     {% endif %}
                     {% for nb in navigation %}
-                        <li class="{% if nb == pagination.actualPage %}active{% endif %} waves-effect"><a href="http://{{ constant("ROOT") }}/posts?page={{ nb }}">{{ nb+1 }}</a></li>
+                        <li class="{% if nb == pagination.actualPage %}active{% endif %} waves-effect"><a href="http://{{ constant("ROOT") }}/post/{{ post.slug }}?page={{ nb }}">{{ nb+1 }}</a></li>
                     {% endfor %}
                     {% if pagination.actualPage != pagination.totalPage %}
-                        <li><a href="http://{{ constant("ROOT") }}/posts?page={{ pagination.next }}"><i class="material-icons">chevron_right</i></a></li>
+                        <li><a href="http://{{ constant("ROOT") }}/post/{{ post.slug }}?page={{ pagination.next }}"><i class="material-icons">chevron_right</i></a></li>
                     {% endif %}
                 </ul>
             {% else %}
