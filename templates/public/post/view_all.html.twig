@@ -26,16 +26,16 @@
                         {#<div class="col m6">#}
                             {#<img class="center-block img-responsive" src="assets/post_photo/<?= $post->getPhoto(); ?>" alt="" style="max-width: 100%;">#}
                         {#</div>#}
-                        <div class="col m6 center-align">
+                        <div class="col m12 center-align">
                             <h2><b>{{ post.title }}</b></h2>
-                            {#<div class="right">#}
-                                {#<small style="text-decoration: underline;">#}
-                                    {#<i class="fa fa-clock-o" aria-hidden="true"></i> Date de dernière mise à jour: <?= $post->getUpdateDate(); ?>#}
-                                {#</small>#}
-                            {#</div>#}
-                            {#<p>#}
-                                {#<?= $post->getChapo(); ?>#}
-                            {#</p>#}
+                            <div class="right">
+                                <small style="text-decoration: underline;">
+                                    <i class="fa fa-clock-o" aria-hidden="true"></i>{{ post.creationdate|date }}
+                                </small>
+                            </div>
+                            <p>
+                                {{ post.chapo }}
+                            </p>
                             <p class="right">... Lire l'article</p>
                         </div>
                     </div><!-- row -->
@@ -44,40 +44,17 @@
                 <br>
             {% endfor %}
 
-            {#<!--        PAGINATION          -->#}
-            {#<nav aria-label="Page navigation" class="text-center">#}
-                {#<ul class="pagination justify-content-center">#}
-                    {#<?php#}
-                {#if($paginationInfos['actualPage'] > 1){#}
-                    {#$previous = $paginationInfos['actualPage']-1;#}
-                    {#?>#}
-                    {#<li class="page-item"><a class="page-link" href="index.php?blog&page=<?= $previous; ?>">Précedent</a></li>#}
-                    {#<?php#}
-                {#}#}
-
-                {#for($i = 1; $i <= $paginationInfos['pagesCount']; $i++)#}
-                {#{#}
-                    {#if($i == $paginationInfos['actualPage'])#}
-                    {#{#}
-                        {#?>#}
-                    {#<li class="page-item active"><a class="page-link" href="index.php?blog&page=<?= $i; ?>"><?= $i; ?></a></li>#}
-                    {#<?php#}
-                    {#}#}
-                    {#else#}
-                    {#{#}
-                        {#?>#}
-                    {#<li class="page-item"><a class="page-link" href="index.php?blog&page=<?= $i; ?>"><?= $i; ?></a></li>#}
-                    {#<?php#}
-                    {#}#}
-                {#}#}
-                {#if($paginationInfos['actualPage'] >=1 && $paginationInfos['actualPage'] < $paginationInfos['pagesCount']){#}
-                    {#$next = $paginationInfos['actualPage']+1;#}
-                    {#?>#}
-                    {#<li class="page-item"><a class="page-link" href="index.php?blog&page=<?= $next; ?>">Suivant</a></li>#}
-                    {#<?php#}
-                {#} ?>#}
-                {#</ul>#}
-            {#</nav> <!-- END PAGINATION -->#}
+            <ul class="pagination center-align">
+                {% if pagination.actualPage != 0 %}
+                    <li><a href="http://{{ constant("ROOT") }}/posts?page={{ pagination.previous }}"><i class="material-icons">chevron_left</i></a></li>
+                {% endif %}
+                {% for nb in navigation %}
+                    <li class="{% if nb == pagination.actualPage %}active{% endif %} waves-effect"><a href="http://{{ constant("ROOT") }}/posts?page={{ nb }}">{{ nb+1 }}</a></li>
+                {% endfor %}
+                {% if pagination.actualPage != pagination.totalPage %}
+                    <li><a href="http://{{ constant("ROOT") }}/posts?page={{ pagination.next }}"><i class="material-icons">chevron_right</i></a></li>
+                {% endif %}
+            </ul>
         </div>
     </div>
 {% endblock %}

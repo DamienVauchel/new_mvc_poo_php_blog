@@ -5,6 +5,7 @@ namespace Controller;
 use Entity\Post;
 use Framework\Controller\Controller;
 use Framework\Exception\LoginException;
+use Framework\Pagination\Pagination;
 use Framework\Session\FlashMessage;
 use Framework\Session\Session;
 use Manager\PostManager;
@@ -97,8 +98,15 @@ class PostController extends Controller
             $posts[] = new Post($data);
         }
 
+        $pagination = new Pagination($posts, 3);
+        $paginatedDatas = $pagination->pagine($posts);
+        $posts = $paginatedDatas['datas'];
+        $navigation = $paginatedDatas['navigation'];
+
         return $this->render('public/post/view_all.html.twig', array(
             'posts' => $posts,
+            'pagination' => $pagination,
+            "navigation" => $navigation,
             'roles' => $this->roles
         ));
     }
