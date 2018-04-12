@@ -17,10 +17,6 @@
                     <b>
                         Ecrit par: {{ post.author }}
                     </b>
-                    <br>
-                    <small>
-                        <i class="material-icons" style="font-size: 1em">access_time</i> le {{ post.creation_date|date("d/m/Y à H\\hi\\m\\i\\n") }}
-                    </small>
                 </div>
         </div><!-- container -->
     </div><!--  bluewrap -->
@@ -31,5 +27,70 @@
                 <p class="post-content">{{ post.content }}</p>
             </div>
         </div><!-- row -->
+
+        <div class="divider"></div>
+
+        <div class="comments">
+            <h4>Commentaires</h4>
+
+            {% if roles == 'ROLE_ADMIN' %}
+                <div class="form-container">
+                    <form class="col s12" method="post" action="http://{{ constant("ROOT") }}/post/{{ post.slug }}">
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <textarea id="comment" name="comment" class="materialize-textarea" required></textarea>
+                                <label for="comment">Votre commentaire</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12">
+                                <div class="input-field inline">
+                                    <input type="submit" class="btn indigo darken-4 hoverable" value="Envoyer le commentaire">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            {% endif %}
+
+            {% if comments %}
+                {% for comment in comments %}
+                    <div class="row moveUp post-postsList">
+                        {#<div class="col m6">#}
+                        {#<img class="center-block img-responsive" src="assets/post_photo/<?= $post->getPhoto(); ?>" alt="" style="max-width: 100%;">#}
+                        {#</div>#}
+                        <div class="col m12 center-align">
+                            <b>Commentaire de {{ comment.author }}</b>
+                            <div class="right">
+                                <small style="text-decoration: underline;">
+                                    <i class="fa fa-clock-o" aria-hidden="true"></i>{{ comment.creation_date|date }}
+                                </small>
+                            </div>
+                            <p>
+                                {{ comment.comment }}
+                            </p>
+                        </div>
+                    </div><!-- row -->
+                    <div class="divider"></div>
+                {% endfor %}
+
+
+                <ul class="pagination center-align">
+                    {% if pagination.actualPage != 0 %}
+                        <li><a href="http://{{ constant("ROOT") }}/posts?page={{ pagination.previous }}"><i class="material-icons">chevron_left</i></a></li>
+                    {% endif %}
+                    {% for nb in navigation %}
+                        <li class="{% if nb == pagination.actualPage %}active{% endif %} waves-effect"><a href="http://{{ constant("ROOT") }}/posts?page={{ nb }}">{{ nb+1 }}</a></li>
+                    {% endfor %}
+                    {% if pagination.actualPage != pagination.totalPage %}
+                        <li><a href="http://{{ constant("ROOT") }}/posts?page={{ pagination.next }}"><i class="material-icons">chevron_right</i></a></li>
+                    {% endif %}
+                </ul>
+            {% else %}
+                <div class="center-align">
+                    Pas de commentaire
+                </div>
+            {% endif %}
+        </div>
     </div>
 {% endblock %}

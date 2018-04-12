@@ -2,12 +2,14 @@
 
 namespace Controller;
 
+use Entity\Comment;
 use Entity\Post;
 use Framework\Controller\Controller;
 use Framework\Exception\LoginException;
 use Framework\Pagination\Pagination;
 use Framework\Session\FlashMessage;
 use Framework\Session\Session;
+use Manager\CommentManager;
 use Manager\PostManager;
 
 /**
@@ -20,6 +22,7 @@ class PostController extends Controller
      * @var PostManager
      */
     private $postManager;
+    private $commentManager;
 
     /**
      * PostController constructor.
@@ -27,6 +30,7 @@ class PostController extends Controller
     public function __construct()
     {
         $this->postManager = new PostManager();
+        $this->commentManager = new CommentManager();
     }
 
     /**
@@ -70,10 +74,43 @@ class PostController extends Controller
             $this->roles = $this->getLoggedUserRoles();
         }
 
-        $post = $this->postManager->findOneBySlug($slug);
+        $datas = $this->postManager->findOneBySlug($slug);
+        $post = new Post($datas);
+
+        $postId = $post->getId();
+        $dbDatas = $this->commentManager->findAllByPost($postId);
+        $comments = [];
+        foreach ($dbDatas as $data) {
+            $comments[] = new Comment($data);
+        }
+
+        $pagination = new Pagination($comments, 5);
+        $paginatedDatas = $pagination->pagine($comments);
+        $comments = $paginatedDatas['datas'];
+        $navigation = $paginatedDatas['navigation'];
+
+        $postedDatas = $_POST;
+
+        if (!empty($postedDatas)) {
+            $checkedDatas = $this->checkDatas($postedDatas);
+
+            $comment = $checkedDatas['comment'];
+            $author = $this->getLoggedUserUsername();
+
+            if (empty($comment)) {
+                return header('Location: http://'.ROOT.'/post/'.$slug);
+            }
+
+            $this->commentManager->add($comment, $author, $postId);
+
+            header('Location: http://'.ROOT.'/post/'.$slug);
+        }
 
         return $this->render('public/post/view.html.twig', array(
             'post' => $post,
+            'comments' => $comments,
+            'pagination' => $pagination,
+            'navigation' => $navigation,
             'roles' => $this->roles
         ));
     }

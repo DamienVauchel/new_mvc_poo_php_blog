@@ -43,6 +43,7 @@ $router->post("home", "Default#index");
 
 /*################## POSTS ROUTES ############################*/
 $router->get("viewPost", "Post#view")->with(":id", "#[0-9]+#");
+$router->post("viewPost", "Post#view")->with(":id", "#[0-9]+#");
 $router->get("viewAllPosts", "Post#viewAll");
 
 /*################## ADMIN ROUTES ############################*/

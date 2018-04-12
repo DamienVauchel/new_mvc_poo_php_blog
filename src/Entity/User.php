@@ -9,6 +9,7 @@ namespace Entity;
  */
 class User
 {
+    private $id;
     /**
      * @var
      */
@@ -40,10 +41,21 @@ class User
      */
     public function hydrate($datas)
     {
+        $this->setId($datas['id']);
         $this->setUsername($datas['username']);
         $this->setHashedPw($datas['password']);
         $this->setEmail($datas['email']);
         $this->setRoles($datas['roles']);
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function setId($id)
+    {
+        $this->id = $id;
     }
 
     /**

@@ -76,6 +76,10 @@ class QueryBuilder
      */
     public function insertInto($table, array $fields)
     {
+        $this->select = null;
+        $this->where = null;
+        $this->from = null;
+        $this->orderBy = null;
         $this->insertionTable = $table;
         $this->fieldsToInsert = $fields;
         return $this;

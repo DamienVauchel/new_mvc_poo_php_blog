@@ -60,9 +60,9 @@ class Post
         $this->setTitle($datas['title']);
         $this->setContent($datas['content']);
         $this->setSlug($datas['title']);
-        $this->setCreationDate(new \DateTime());
-        $this->setLastUpdateDate(null);
-//        $this->setAuthor(null);
+        $this->setAuthor($datas['author']);
+        $this->setCreationDate($datas['creation_date']);
+        $this->setLastUpdateDate($datas['last_update_date']);
     }
 
     /**
