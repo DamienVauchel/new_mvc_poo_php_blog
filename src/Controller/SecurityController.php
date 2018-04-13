@@ -5,6 +5,7 @@ namespace Controller;
 use Entity\User;
 use Framework\Controller\Controller;
 use Framework\Exception\LoginException;
+use Framework\Security\Ticket;
 use Framework\Session\Session;
 use Manager\UserManager;
 
