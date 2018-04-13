@@ -25,6 +25,11 @@ class Controller extends Container
     protected $roles = null;
 
     /**
+     * @var null
+     */
+    protected $token = null;
+
+    /**
      * Controller constructor.
      */
     public function __construct()

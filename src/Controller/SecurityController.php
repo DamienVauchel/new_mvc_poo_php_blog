@@ -5,6 +5,8 @@ namespace Controller;
 use Entity\User;
 use Framework\Controller\Controller;
 use Framework\Exception\LoginException;
+use Framework\Security\Ticket;
+use Framework\Security\Token;
 use Framework\Session\Session;
 use Manager\UserManager;
 
@@ -79,6 +81,9 @@ class SecurityController extends Controller
                 $serializedUser = serialize($user);
                 $session = new Session();
                 $session->set('loggedUser', $serializedUser);
+
+                $token = Token::create();
+                $session->set('token', $token);
 
                 $this->redirectTo('home');
             } else {
