@@ -79,6 +79,11 @@ if (isset($_SESSION['bl_ti']) && isset($_COOKIE['bl_ti']) && ($_COOKIE['bl_ti'] 
     /*################## DEFAULT ROUTES ############################*/
     $router->get("home", "Default#index");
     $router->post("home", "Default#index");
+
+    /*################## POSTS ROUTES ############################*/
+    $router->get("viewPost", "Post#view")->with(":id", "#[0-9]+#");
+    $router->post("viewPost", "Post#view")->with(":id", "#[0-9]+#");
+    $router->get("viewAllPosts", "Post#viewAll");
 }
 
 

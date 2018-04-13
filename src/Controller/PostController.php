@@ -43,22 +43,31 @@ class PostController extends Controller
     {
         $datas = $_POST;
 
+        if (isset($_SESSION['token']) && !empty($_SESSION['token'])) {
+            $this->token = $_SESSION['token'];
+        }
+
         if (!empty($datas)) {
             $checkedDatas = $this->checkDatas($datas);
 
-            $title = $checkedDatas['title'];
-            $content = $checkedDatas['content'];
-            $author = $this->getLoggedUserUsername();
-            $slug = $this->slugify($title);
+            if ($_SESSION['token'] == $checkedDatas['token']) {
+                $title = $checkedDatas['title'];
+                $content = $checkedDatas['content'];
+                $author = $this->getLoggedUserUsername();
+                $slug = $this->slugify($title);
 
-            $this->postManager->add($title, $content, $author, $slug);
+                $this->postManager->add($title, $content, $author, $slug);
+            }
 
             $this->redirectTo('home');
         }
 
         $this->roles = $this->getLoggedUserRoles();
 
-        $this->render('public/post/create.html.twig', array('roles' => $this->roles));
+        $this->render('public/post/create.html.twig', array(
+            'roles' => $this->roles,
+            'token' => $this->token
+            ));
     }
 
     /**
@@ -72,6 +81,10 @@ class PostController extends Controller
     {
         if (isset($_SESSION['loggedUser']) && !empty($_SESSION['loggedUser'])) {
             $this->roles = $this->getLoggedUserRoles();
+        }
+
+        if (isset($_SESSION['token']) && !empty($_SESSION['token'])) {
+            $this->token = $_SESSION['token'];
         }
 
         $datas = $this->postManager->findOneBySlug($slug);
@@ -89,14 +102,16 @@ class PostController extends Controller
         if (!empty($postedDatas)) {
             $checkedDatas = $this->checkDatas($postedDatas);
 
-            $comment = $checkedDatas['comment'];
-            $author = $this->getLoggedUserUsername();
+            if ($_SESSION['token'] == $checkedDatas['token']) {
+                $comment = $checkedDatas['comment'];
+                $author = $this->getLoggedUserUsername();
 
-            if (empty($comment)) {
-                return header('Location: http://'.ROOT.'/post/'.$slug);
+                if (empty($comment)) {
+                    return header('Location: http://'.ROOT.'/post/'.$slug);
+                }
+
+                $this->commentManager->add($comment, $author, $postId);
             }
-
-            $this->commentManager->add($comment, $author, $postId);
 
             header('Location: http://'.ROOT.'/post/'.$slug);
         }
@@ -104,7 +119,8 @@ class PostController extends Controller
         return $this->render('public/post/view.html.twig', array(
             'post' => $post,
             'comments' => $comments,
-            'roles' => $this->roles
+            'roles' => $this->roles,
+            'token' => $this->token
         ));
     }
 
@@ -157,20 +173,27 @@ class PostController extends Controller
 
         $datas = $_POST;
 
+        if (isset($_SESSION['token']) && !empty($_SESSION['token'])) {
+            $this->token = $_SESSION['token'];
+        }
+
         if (!empty($datas)) {
             $checkedDatas = $this->checkDatas($datas);
 
-            $title = $checkedDatas['title'];
-            $content = $checkedDatas['content'];
-            $slug = $this->slugify($title);
+            if ($_SESSION['token'] == $checkedDatas['token']) {
+                $title = $checkedDatas['title'];
+                $content = $checkedDatas['content'];
+                $slug = $this->slugify($title);
 
-            $this->postManager->update($title, $content, $slug);
+                $this->postManager->update($title, $content, $slug);
+            }
 
             $this->redirectTo('home');
         }
 
         $this->render('public/post/edit.html.twig', array(
-            'post' => $post
+            'post' => $post,
+            'token' => $this->token
         ));
     }
 
@@ -185,17 +208,24 @@ class PostController extends Controller
         $get = $this->checkDatas($get);
         $slug = $get[2];
 
+        if (isset($_SESSION['token']) && !empty($_SESSION['token'])) {
+            $this->token = $_SESSION['token'];
+        }
+
         $dbDatas = $this->postManager->findOneBySlug($slug);
         $post = new Post($dbDatas);
 
         if (isset($_POST['deleteSubmit'])) {
-            $this->postManager->delete($slug);
+            if ($_SESSION['token'] == $_POST['token']) {
+                $this->postManager->delete($slug);
+            }
 
             $this->redirectTo('admin');
         }
 
         $this->render('public/post/delete.html.twig', array(
-            'post' => $post
+            'post' => $post,
+            'token' => $this->token
         ));
     }
 }

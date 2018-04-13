@@ -2,7 +2,6 @@
 
 namespace Framework\Security;
 
-
 use Framework\Session\Cookie;
 use Framework\Session\Session;
 
