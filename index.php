@@ -18,7 +18,7 @@ if (isset($_SESSION['loggedUser']) && !empty($_SESSION['loggedUser'])) {
 
 $router = new Router($_GET['url']);
 
-if (empty($_SESSION) || !isset($_SESSION['bl_ti']) && !isset($_COOKIE['bl_ti'])) {
+if (empty($_SESSION) || empty($_COOKIE['bl_ti']) || !isset($_SESSION['bl_ti']) && !isset($_COOKIE['bl_ti'])) {
     \Framework\Security\Ticket::create();
 }
 
